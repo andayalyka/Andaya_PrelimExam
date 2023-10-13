@@ -1,0 +1,46 @@
+---
+- hosts: all
+  become: true
+  vars:
+      ansible_python_interpreter: /usr/bin/python3
+  tasks:
+
+  - name: install python3 for Ubuntu
+    apt:
+      name:
+        - python3
+      state: latest
+    when: ansible_distribution == "Ubuntu"
+
+  - name: Install Java OpenJDK
+    apt:
+      name: openjdk-11-jdk
+      state: latest
+    when: ansible_distribution == "Ubuntu"
+
+  - name: install and upgrade pip for Ubuntu
+    pip:
+      name: pip
+      extra_args: --upgrade
+      executable: pip3
+    when: ansible_distribution == "Ubuntu"
+
+  - name: install python3 for CentOS
+    dnf:
+      name:
+        - python3
+      state: latest
+    when: ansible_distribution == "CentOS"
+
+  - name: Install Java OpenJDK
+    yum:
+      name: java-11-openjdk-devel
+      state: latest
+    when: ansible_distribution == "CentOS"
+
+  - name: install and upgrade pip for CentOS
+    pip:
+      name: pip
+      extra_args: --upgrade
+      executable: pip3
+    when: ansible_distribution == "CentOS"
